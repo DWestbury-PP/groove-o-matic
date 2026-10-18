@@ -22,5 +22,7 @@ TypeScript, React 19, Vite, Vitest. There's no backend.
 - IP: use original instrument names, designs, and demo patterns. Don't use
   trademarked hardware or product names, and don't recreate specific
   records.
+- Publish the demo with `npm run publish:site`. The here.now key lives in `.env`
+  (gitignored), never in commits. The slug is in `herenow.json`.
 - Work on a branch, open a PR, then merge. Commit trailer:
   `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`

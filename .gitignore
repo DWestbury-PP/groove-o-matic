@@ -3,3 +3,8 @@ dist
 *.tsbuildinfo
 .DS_Store
 .vite
+
+# Local secrets (e.g. HERENOW_API_KEY for publishing)
+.env
+.env.*
+!.env.example
