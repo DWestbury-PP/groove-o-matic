@@ -7,6 +7,8 @@ license: every sound is synthesized in the browser.
 
 It's built for casual users: open it, pick a demo, and start twisting knobs.
 
+**▶ Play it now: https://eternal-kernel-rv34.here.now/**
+
 ## Features (v0.1)
 
 - **AS-1 acid synth**: anti-aliased saw/square oscillator into a resonant
@@ -46,8 +48,10 @@ npm run check    # typecheck + lint + tests
 npm run build    # static bundle in dist/
 ```
 
-See [docs/architecture.md](docs/architecture.md) for how it fits together and
-[docs/roadmap.md](docs/roadmap.md) for what's next.
+See [docs/architecture.md](docs/architecture.md) for how it fits together,
+[docs/roadmap.md](docs/roadmap.md) for what's next, and
+[CONTRIBUTING.md](CONTRIBUTING.md) to add your own grooves. A new demo is
+just a few lines of text.
 
 ## A note on names
 

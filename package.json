@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "publish:site": "npm run build && node scripts/publish.mjs"
   },
   "dependencies": {
     "immer": "^11.1.21",
