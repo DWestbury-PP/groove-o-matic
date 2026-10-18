@@ -1,0 +1,688 @@
+/* Design tokens. Every color lives here so skins can retheme by overriding
+   tokens globally or per device (.device.acid / .device.drums). */
+:root {
+  --bg: #121316;
+  --bg-raised: #1b1d22;
+  --panel: #23262d;
+  --panel-edge: #33373f;
+  --cell: #2c3038;
+  --cell-beat: #353a44;
+  --cell-off: #1d2025;
+  --text: #e8e9ec;
+  --text-dim: #9097a3;
+  --text-faint: #5d6470;
+  --accent: #ff7a1a;
+  --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
+  --accent-2: #ffd23f;
+  --slide: #6cc3ff;
+  --now: rgba(255, 255, 255, 0.14);
+  --knob-cap: #3a3f49;
+  --knob-track: #15171b;
+  --meter-bg: #0d0e10;
+  --meter-fill: #45d483;
+  --meter-hot: #ff4d4d;
+  --danger: #ff5c5c;
+  --radius: 8px;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+
+.device.acid {
+  --accent: #ff7a1a;
+}
+.device.drums {
+  --accent: #2fd3c5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.knob-dial:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+kbd {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 1px 5px;
+  border: 1px solid var(--panel-edge);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--bg-raised);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Transport ---------- */
+
+.transport {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--panel-edge);
+  flex-wrap: wrap;
+}
+
+.brand,
+.start h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 20px;
+  margin-right: 8px;
+}
+.brand span,
+.start h1 span {
+  color: var(--accent);
+}
+
+.play {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 2px solid var(--panel-edge);
+  font-size: 16px;
+  transition: background 0.1s;
+}
+.play.is-playing {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #111;
+}
+
+.bpm {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--meter-bg);
+  border-radius: var(--radius);
+  padding: 4px 6px;
+}
+.bpm input {
+  width: 48px;
+  background: none;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 20px;
+  color: var(--accent-2);
+  text-align: right;
+  appearance: textfield;
+}
+.bpm input::-webkit-inner-spin-button {
+  appearance: none;
+}
+.bpm-unit {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-right: 4px;
+}
+.bpm button {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--panel);
+}
+
+.meter {
+  width: 120px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.song-name {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 6px 8px;
+  width: 200px;
+  font-weight: 600;
+}
+.song-name:hover,
+.song-name:focus {
+  border-color: var(--panel-edge);
+}
+
+.demo-picker,
+.select select {
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.action {
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+.action:hover {
+  border-color: var(--accent);
+}
+
+/* ---------- Rack / devices ---------- */
+
+.rack {
+  flex: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.device {
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.device-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.device-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.device-name {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--accent);
+}
+.device-kind {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+}
+.device-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.segmented {
+  display: flex;
+  background: var(--meter-bg);
+  border-radius: 6px;
+  padding: 2px;
+}
+.segmented button {
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: var(--text-dim);
+}
+.segmented button.is-on {
+  background: var(--accent);
+  color: #111;
+  font-weight: 600;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+.toggle {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--panel-edge);
+  color: var(--text-dim);
+}
+.toggle.mute.is-on {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #111;
+  font-weight: 600;
+}
+
+/* ---------- Knobs ---------- */
+
+.knob-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.knob {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+.knob-dial {
+  touch-action: none;
+  cursor: ns-resize;
+  border-radius: 50%;
+}
+.knob-track {
+  fill: none;
+  stroke: var(--knob-track);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+.knob-value {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+.knob-cap {
+  fill: var(--knob-cap);
+}
+.knob-pointer {
+  stroke: var(--text);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.knob-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  min-width: 52px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.knob.is-active .knob-label {
+  color: var(--accent-2);
+  font-family: var(--mono);
+}
+.knob-sm .knob-label {
+  font-size: 9px;
+  min-width: 36px;
+}
+
+/* ---------- Pattern bar ---------- */
+
+.pattern-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.slots {
+  display: flex;
+  gap: 4px;
+}
+.slot {
+  width: 32px;
+  height: 28px;
+  border-radius: 5px;
+  background: var(--cell);
+  font-family: var(--mono);
+  font-weight: 600;
+  position: relative;
+}
+.slot.is-empty {
+  color: var(--text-faint);
+}
+.slot.is-selected {
+  outline: 2px solid var(--accent);
+}
+.slot.is-playing {
+  background: var(--accent);
+  color: #111;
+}
+.slot.is-cued {
+  animation: blink 0.5s steps(2, start) infinite;
+}
+@keyframes blink {
+  to {
+    background: var(--accent-soft);
+  }
+}
+.length {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+.length input {
+  width: 48px;
+  background: var(--meter-bg);
+  border: 1px solid var(--panel-edge);
+  border-radius: 5px;
+  padding: 4px;
+  font-family: var(--mono);
+}
+
+/* ---------- Step grids (shared) ---------- */
+
+.col {
+  background: var(--cell);
+  border-radius: 3px;
+  min-width: 0;
+}
+.col.is-beat {
+  background: var(--cell-beat);
+}
+.col.is-off {
+  background: var(--cell-off);
+  opacity: 0.5;
+}
+.col.is-now {
+  box-shadow: inset 0 0 0 100px var(--now);
+}
+.cell.is-on {
+  background: var(--accent);
+}
+.cell.is-on.is-accent {
+  background: var(--accent-2);
+}
+.cell.is-on.is-now {
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* ---------- Acid piano roll ---------- */
+
+.roll {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.roll-row {
+  display: grid;
+  grid-template-columns: 52px repeat(16, 1fr);
+  gap: 2px;
+  height: 18px;
+}
+.roll-row .row-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+}
+.roll-row.is-black .row-label {
+  color: var(--text-faint);
+}
+.roll-row.is-offscale .row-label {
+  color: var(--danger);
+}
+.roll-row.mod-row {
+  height: 22px;
+  margin-top: 2px;
+}
+.mod {
+  font-size: 13px;
+  color: var(--text);
+}
+.mod.is-on {
+  background: var(--accent-soft);
+}
+.mod-accent.is-on {
+  background: var(--accent-2);
+}
+.mod-slide.is-on {
+  background: var(--slide);
+}
+.cell.is-slide {
+  border-right: 4px solid var(--slide);
+}
+
+/* ---------- Keyboard ---------- */
+
+.keyboard-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.kb-octave {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.kb-octave button {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: var(--cell);
+}
+.keyboard {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+}
+.key {
+  flex: 1;
+  height: 56px;
+  border-radius: 0 0 6px 6px;
+  background: #d9dbe0;
+  color: #555;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  touch-action: none;
+  user-select: none;
+}
+.key.is-black {
+  background: #30333a;
+  color: var(--text-dim);
+  height: 44px;
+  align-self: flex-start;
+}
+.key.is-scale {
+  box-shadow: inset 0 3px 0 var(--accent);
+}
+.key.is-down {
+  background: var(--accent);
+  color: #111;
+}
+
+/* ---------- Drum grid ---------- */
+
+.drum-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.drum-row {
+  display: grid;
+  grid-template-columns: 112px 128px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.pad {
+  height: 30px;
+  border-radius: 5px;
+  background: var(--cell-beat);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  transition: background 0.08s;
+  user-select: none;
+}
+.pad:active,
+.pad.is-hit {
+  background: var(--accent);
+  color: #111;
+}
+.pad-key {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-faint);
+}
+.pad.is-hit .pad-key {
+  color: #111;
+}
+.pad-static {
+  background: none;
+  color: var(--text-dim);
+  cursor: default;
+}
+.voice-knobs {
+  display: flex;
+  gap: 6px;
+}
+.voice-knobs .knob-label {
+  display: none;
+}
+.drum-row:first-child .voice-knobs .knob-label {
+  display: block;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 3px;
+  height: 30px;
+}
+.accent-row .steps {
+  height: 18px;
+}
+.accent-row .cell.is-on {
+  background: var(--accent-2);
+}
+
+/* ---------- Footer ---------- */
+
+.help {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 12px 20px 20px;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+/* ---------- Start screen ---------- */
+
+.start {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+.start-card {
+  max-width: 760px;
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-top: 3px solid var(--accent);
+  border-radius: 12px;
+  padding: 28px;
+}
+.start h1 {
+  font-size: 40px;
+  margin: 0 0 6px;
+}
+.tagline {
+  color: var(--text-dim);
+  margin: 0 0 22px;
+  font-size: 16px;
+}
+.demo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.demo-card {
+  text-align: left;
+  background: var(--bg-raised);
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition:
+    border-color 0.1s,
+    transform 0.1s;
+}
+.demo-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.demo-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--accent);
+}
+.demo-blurb {
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.start-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.error {
+  color: var(--danger);
+}
